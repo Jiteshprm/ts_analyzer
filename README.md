@@ -6,6 +6,7 @@ A MPEG TS Stream analyzer, base on Qt5, FFmpeg and QtAV.
 
 ## Build
 * Pre-requirement: Qt 5.x, QtAV installed
+* https://github.com/wang-bin/QtAV/wiki/Build-QtAV
 * Build tool: Qt 5.x
 * Tested on Windows 7 SP1 x64, Qt 5.7.0, VS2015. Theoritically, ts analyzer support all kinds of platform, not tested yet.
 
