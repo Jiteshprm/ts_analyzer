@@ -12,6 +12,9 @@ A MPEG TS Stream analyzer, base on Qt5, FFmpeg and QtAV.
 
 ## Version histories
 
+### V0.1, 2020-04-26
+* Compiled in OSX Mojave 10.14.6 (18G103) with ffmpeg 4.2.2 installed brew/libs and includes, fixing rightclick QPoint issue and issue when avcodec details are empty
+
 ### V0.1, 2017-09-06
 * Basic TS stream analyze, support 1 video stream and 1 audio stream.
 * FFmpeg AVPacket list, analyze relationship between TS packets.
