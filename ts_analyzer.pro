@@ -45,12 +45,15 @@ FORMS    += mainwindow.ui \
 
 INCLUDEPATH += $$_PRO_FILE_PWD_/ffmpeg/include $$_PRO_FILE_PWD_/SDL2/include
 
-LIBS += -L$$_PRO_FILE_PWD_/ffmpeg/lib libgcc.a libmingwex.a libiconv.a \
-    avformat.lib avcodec.lib avutil.lib swscale.lib swresample.lib avfilter.lib avdevice.lib postproc.lib \
-    -L$$_PRO_FILE_PWD_/SDL2/lib libSDL2.dll.a libSDL2main.a
+#LIBS += -L$$_PRO_FILE_PWD_/ffmpeg/lib libgcc.a libmingwex.a libiconv.a \
+#    avformat.lib avcodec.lib avutil.lib swscale.lib swresample.lib avfilter.lib avdevice.lib postproc.lib \
+#    -L$$_PRO_FILE_PWD_/SDL2/lib libSDL2.dll.a libSDL2main.a
 
-QMAKE_CXXFLAGS += /utf-8
-QMAKE_CFLAGS += /utf-8
+LIBS += -L$$_PRO_FILE_PWD_/ffmpeg/lib -lavformat -lavcodec -lavutil -lswscale -lswresample -lavfilter -lavdevice -lpostproc \
+      -F/Users/jitesh/IdeaProjects/build-QtAV-Desktop_Qt_5_14_2_clang_64bit-Debug/lib_osx_x86_64_llvm -framework QtAVWidgets
+
+#QMAKE_CXXFLAGS += /utf-8
+#QMAKE_CFLAGS += /utf-8
 
 RESOURCES += \
     ts_analyzer.qrc

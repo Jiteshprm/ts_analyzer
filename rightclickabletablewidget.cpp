@@ -31,7 +31,10 @@ void RightClickableTableWidget::mouseReleaseEvent(QMouseEvent *event) {
     QTableWidgetItem* item = this->itemAt(event->pos());
     if (item) {
         if (item->row() == cell_row && item->column() == cell_col) {
-            emit cell_right_clicked(cell_row, cell_col, event->pos());
+            QPoint m;
+            m.setX(event->x());
+            m.setY(event->y());
+            emit cell_right_clicked(cell_row, cell_col, m);
             cell_row = -1;
             cell_col = -1;
         }

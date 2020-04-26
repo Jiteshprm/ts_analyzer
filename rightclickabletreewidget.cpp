@@ -29,7 +29,10 @@ void RightClickableTreeWidget::mouseReleaseEvent(QMouseEvent *event) {
     QTreeWidgetItem* item = this->itemAt(event->pos());
     if (item) {
         if (right_click_item == item) {
-            emit item_right_clicked(item, event->pos());
+            QPoint m;
+            m.setX(event->x());
+            m.setY(event->y());
+            emit item_right_clicked(item, m);
             right_click_item = NULL;
         }
     }

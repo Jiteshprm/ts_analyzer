@@ -484,7 +484,8 @@ void MainWindow::slot_parse_finished() {
     for (int i=0;i<thread.tpc->ic->nb_streams;i++) {
         const AVCodecDescriptor* codec_desc = avcodec_descriptor_get(thread.tpc->ic->streams[i]->codec->codec_id);
         item_content.clear();
-        item_content.append(codec_desc->name);
+        if (codec_desc!=0)
+            item_content.append(codec_desc->name);
         ui->treeWidgetStreamPacketList->insertTopLevelItem(i, new QTreeWidgetItem(item_content));
     }
 
@@ -939,16 +940,23 @@ void MainWindow::slot_parse_finished() {
     for (int i=0;i<thread.tpc->ic->nb_streams;i++) {
         insert_info_table(tr("Stream %1:").arg(i));
         const AVCodecDescriptor* codec_desc = avcodec_descriptor_get(thread.tpc->ic->streams[i]->codec->codec_id);
-        insert_info_table(tr("Type:"), tr("%1").arg(av_get_media_type_string(codec_desc->type)));
-        insert_info_table(tr("Codec type:"), tr("%1").arg(codec_desc->long_name));
-        insert_info_table(tr("Duration:"), tr("%1 sec").arg((double)thread.tpc->ic->streams[i]->duration * av_q2d(thread.tpc->ic->streams[i]->time_base), -1, 'f', 2, QChar('0')));
-        if (codec_desc->type == AVMEDIA_TYPE_VIDEO) {
-            insert_info_table(tr("Frame rate:"), tr("%1").arg(av_q2d(thread.tpc->ic->streams[i]->avg_frame_rate)));
-            insert_info_table(tr("Resolution:"), tr("%1 x %2").arg(thread.tpc->ic->streams[i]->codecpar->width).arg(thread.tpc->ic->streams[i]->codecpar->height));
-        } else if (codec_desc->type == AVMEDIA_TYPE_AUDIO) {
-            insert_info_table(tr("Bit rate:"), tr("%1 Kbps").arg((double)thread.tpc->ic->streams[i]->codecpar->bit_rate / 1000, -1, 'f', 2, QChar('0')));
-            insert_info_table(tr("Sample rate:"), tr("%1 Hz").arg(thread.tpc->ic->streams[i]->codecpar->sample_rate));
+        if (codec_desc!=0){
+            insert_info_table(tr("Type:"), tr("%1").arg(av_get_media_type_string(codec_desc->type)));
+            insert_info_table(tr("Codec type:"), tr("%1").arg(codec_desc->long_name));
+            insert_info_table(tr("Duration:"), tr("%1 sec").arg((double)thread.tpc->ic->streams[i]->duration * av_q2d(thread.tpc->ic->streams[i]->time_base), -1, 'f', 2, QChar('0')));
+            if (codec_desc->type == AVMEDIA_TYPE_VIDEO) {
+                insert_info_table(tr("Frame rate:"), tr("%1").arg(av_q2d(thread.tpc->ic->streams[i]->avg_frame_rate)));
+                insert_info_table(tr("Resolution:"), tr("%1 x %2").arg(thread.tpc->ic->streams[i]->codecpar->width).arg(thread.tpc->ic->streams[i]->codecpar->height));
+            } else if (codec_desc->type == AVMEDIA_TYPE_AUDIO) {
+                insert_info_table(tr("Bit rate:"), tr("%1 Kbps").arg((double)thread.tpc->ic->streams[i]->codecpar->bit_rate / 1000, -1, 'f', 2, QChar('0')));
+                insert_info_table(tr("Sample rate:"), tr("%1 Hz").arg(thread.tpc->ic->streams[i]->codecpar->sample_rate));
+            }
+        } else {
+            insert_info_table(tr("Type:"), tr("%1").arg("None"));
+            insert_info_table(tr("Codec type:"), tr("%1").arg("None"));
+            insert_info_table(tr("Duration:"), tr("%1 sec").arg((double)thread.tpc->ic->streams[i]->duration * av_q2d(thread.tpc->ic->streams[i]->time_base), -1, 'f', 2, QChar('0')));
         }
+
     }
 
     QString total_ts_count = tr("%1").arg(thread.tpc->nb_ts_packets);
